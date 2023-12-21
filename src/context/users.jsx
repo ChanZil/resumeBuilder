@@ -23,7 +23,6 @@ const Provider = ({ children }) => {
     const [resumeList, setResumeList] = useState([]);
     const resumeCollectionRef = collection(db, "resumes");
     const storage = getStorage();
-    const imagesRef = ref(storage, 'resumeBuilderImages/1.jpeg');
     const [downloadImg, setDownloadImg] = useState("first");
 
     const signUpEmailPassword = async (email, password) => {
@@ -106,9 +105,9 @@ const Provider = ({ children }) => {
         }
     }
 
-    const uploadFile = async (fileToUpload) => {
+    const uploadFile = async (fileToUpload, resumeName) => {
         if (!fileToUpload) return;
-        const filesFolderRef = ref(storage, `resumeBuilderImages/${fileToUpload.name}`);
+        const filesFolderRef = ref(storage, `resumeBuilderImages/${resumeName}`);
         try {
             await uploadBytes(filesFolderRef, fileToUpload);
         } catch (err) {
@@ -116,8 +115,9 @@ const Provider = ({ children }) => {
         }
     }
 
-    const downloadFile = async () => {
+    const downloadFile = async (resumeName) => {
         try {
+            const imagesRef = ref(storage, `resumeBuilderImages/${resumeName}`);
             const url = await getDownloadURL(imagesRef);
             setDownloadImg(url);
             console.log("di: ", downloadImg);
@@ -126,7 +126,7 @@ const Provider = ({ children }) => {
         }
     };
 
-    const shared = { userConnected, signUpEmailPassword, signInGoogle, signInEmailPassword, logOut, resumeList, addResume, getResumeList, getResumeByUser, uploadFile, downloadImg }
+    const shared = { userConnected, signUpEmailPassword, signInGoogle, signInEmailPassword, logOut, resumeList, addResume, getResumeList, getResumeByUser, uploadFile, downloadImg, downloadFile }
     return (
         <UserContext.Provider value={shared}>
             {children}
