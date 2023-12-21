@@ -31,7 +31,7 @@ export default function DisplayResume() {
   const saveResumeBtn = async (resumeName) => {
     console.log(userConnected);
     console.log("file to upload: ", imgUpload);
-    uploadFile(imgUpload);
+    uploadFile(imgUpload, resumeName);
     const newResume = {
       city: resumeDetails.city,
       country: resumeDetails.country,
