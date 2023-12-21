@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import UserContext from '../context/users';
 
 export default function Home() {
-  const { logOut, userConnected, resumeList, downloadFile } = useContext(UserContext);
+  const { logOut, userConnected, resumeList, downloadFile, downloadImg } = useContext(UserContext);
   const navigate = useNavigate();
 
   const createResumeBtnHandle = () => {
@@ -27,12 +27,15 @@ export default function Home() {
       city: resume.city,
       country: resume.country
     }
+    await downloadFile(resume.resumeName);
+    const imgResume = downloadImg;
+    console.log(imgResume);
     navigate('/displayResume', {
       state: {
         resumeDetails: resumeInput,
         workExperience: resume.workExperience,
         education: resume.education,
-        imgResume: ""
+        imgResume: imgResume
       }
     });
   }
